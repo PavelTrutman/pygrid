@@ -85,11 +85,11 @@ class PyGrid(object):
             dists = self._get_seq_distances(windowframe, seqs)
             currindex = sorted(dists)[0][1]
             nextindex = (currindex + 1) % len(seqs)
-            print('\nMove window %s to %s..' % (window.get_xid(), keypos['name']))
-            print('  config: xdivs={xdivs}, ydivs={ydivs}, minw={minwidth}, maxw={maxwidth}, '
-                'minh={minheight}, maxh={maxheight}, padding={padding}'.format(**config))
-            print('  workarea: %s (monitorid:%s)' % (_rstr(workarea), monitorid))
-            print('  windowframe: %s' % _rstr(windowframe))
+            #print('\nMove window %s to %s..' % (window.get_xid(), keypos['name']))
+            #print('  config: xdivs={xdivs}, ydivs={ydivs}, minw={minwidth}, maxw={maxwidth}, '
+            #    'minh={minheight}, maxh={maxheight}, padding={padding}'.format(**config))
+            #print('  workarea: %s (monitorid:%s)' % (_rstr(workarea), monitorid))
+            #print('  windowframe: %s' % _rstr(windowframe))
             for i, seqp in enumerate(seqs):
                 print('  %s; dist=%s' % (str(seqp), dists[i][0]))
             self._move_window(window, seqs[nextindex])
@@ -99,8 +99,8 @@ class PyGrid(object):
     def _get_active_window(self, screen):
         """ Get the current active window. """
         window = screen.get_active_window()
-        if not screen.supports_net_wm_hint(Gdk.atom_intern('_NET_ACTIVE_WINDOW', True)): return None
-        if not screen.supports_net_wm_hint(Gdk.atom_intern('_NET_WM_WINDOW_TYPE', True)): return None
+        #if not screen.supports_net_wm_hint(Gdk.atom_intern('_NET_ACTIVE_WINDOW', True)): return None
+        #if not screen.supports_net_wm_hint(Gdk.atom_intern('_NET_WM_WINDOW_TYPE', True)): return None
         if window.get_type_hint().value_name == 'GDK_WINDOW_TYPE_HINT_DESKTOP': return None
         return window
 
@@ -175,7 +175,7 @@ class PyGrid(object):
         # TODO: we shouldn't assume the bottom thickness equals the side thickness.
         # TODO: we should read shadow width and adjust accordingly instead of setting it.
         origin, root = window.get_origin(), window.get_root_origin()
-        offx, offy = origin.x - root.x, origin.y - root.y
+        offx, offy = origin[0] - root[0], origin[1] - root[1]
         print('  newpos: x=%s, y=%s, w=%s, h=%s (offx:%s, offy:%s)' % (seq.x1, seq.y1,
             seq.w-(offx*2), seq.h-(offx+offy), offx, offy))
         window.set_shadow_width(0,0,0,0)
